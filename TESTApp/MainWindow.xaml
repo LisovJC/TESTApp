@@ -1,0 +1,113 @@
+﻿<Window x:Class="TESTApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TESTApp" xmlns:col="clr-namespace:System.Collections;assembly=mscorlib" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:viewmodels="clr-namespace:TESTApp.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="Дополнительные параметры" 
+        Height="450" Width="500"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <viewmodels:MainViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+
+        <DataGrid 
+                  Margin="0,60,0,45"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  ItemsSource="{Binding Items}"
+                  SelectedIndex="{Binding SelectedGridIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.Columns>
+
+                <DataGridTextColumn 
+                                    Header="Название"
+                                    MinWidth="200"
+                                    Binding="{Binding NameCol1}"/>
+
+                <DataGridComboBoxColumn 
+                                        Header="Тип"
+                                        MinWidth="200"
+                                        SelectedItemBinding="{Binding TypeCol2}">
+                    <DataGridComboBoxColumn.ItemsSource>
+                        <col:ArrayList>
+                            <sys:String>Простая строка</sys:String>
+                            <sys:String>Строка с историей</sys:String>
+                            <sys:String>Значение из списка</sys:String>
+                            <sys:String>Набор значений из списка</sys:String>
+                        </col:ArrayList>
+                    </DataGridComboBoxColumn.ItemsSource>
+                </DataGridComboBoxColumn>
+
+                <DataGridTemplateColumn
+                                Header="Список"
+                                Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Список..."
+                                    Background="Transparent"
+                                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.OpenListWindowCommand}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Height="60"
+                    Width="500">
+            <Button Width="70"
+                    Height="30"
+                    Margin="10,0,0,0"
+                    Content="Вверх"                   
+                    Command="{Binding UpGridItemCommand}"
+                    BorderThickness="0"/>
+            <Button Width="70"
+                    Height="30"
+                    Margin="10,0,0,0"
+                    Content="Вниз"                 
+                    Command="{Binding DownGridItemCommand}"
+                    BorderThickness="0"/>
+            <Button Width="70"
+                    Height="30"
+                    Margin="10,0,0,0"
+                    Content="Добавить"
+                    Command="{Binding AddGridItemCommand}"
+                    Background="#d5ddd3"
+                    BorderThickness="0"/>
+            <Button Width="70"
+                    Height="30"
+                    Margin="10,0,0,0"
+                    Content="Удалить"
+                    Command="{Binding RemoveGridItemCommand}"
+                    Background="#d5ddd3"
+                    BorderThickness="0"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal"
+                    Height="45"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center"
+                    Width="500">
+            <Button Width="70"
+                    Height="30"
+                    Margin="10,0,0,0"
+                    Content="Ок"                    
+                    Background="#d5ddd3"
+                    BorderThickness="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                      MethodName="Close"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

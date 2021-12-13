@@ -1,0 +1,112 @@
+﻿<Window x:Class="TESTApp.ListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TESTApp" xmlns:viewmodel="clr-namespace:TESTApp.ViewModels" 
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+       Title="Список" 
+        Height="350" 
+        Width="400"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <viewmodel:ListViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <DataGrid 
+                 Margin="10,30,100,10"
+                 BorderThickness="1"
+                 BorderBrush="#c8c8c7"
+                 ItemsSource="{Binding ListOfValues, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 SelectedIndex="{Binding SelectedListIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 AutoGenerateColumns="False"
+                 CanUserAddRows="False"
+                 CanUserSortColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Строки:" Width="*"
+                                    Binding="{Binding ListValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                </DataGridTextColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel 
+                    HorizontalAlignment="Right"
+                    Width="85"
+                    Margin="0,30,10,75"
+                    Orientation="Vertical">
+            <Button Background="#d5ddd3"
+                    BorderThickness="0"
+                    Foreground="Black"
+                    Height="25"
+                    Margin="0,0,1,0"
+                    Content="Вверх"
+                    FontSize="10"
+                    Command="{Binding UpListItemCommand}"/>
+            <Button Background="#d5ddd3"
+                    BorderThickness="0"
+                    Foreground="Black"
+                    Height="25"
+                    Margin="0,10,1,0"
+                    Content="Вниз"
+                    FontSize="10"
+                    Command="{Binding DownListItemCommand}"/>
+            <Button Background="#d5ddd3"
+                    BorderThickness="0"
+                    Foreground="Black"
+                    Height="25"
+                    Margin="0,10,1,0"
+                    Content="Удалить"
+                    FontSize="10"
+                    Command="{Binding RemoveListItemCommand}"/>
+            <Button Background="#d5ddd3"
+                    BorderThickness="0"
+                    Foreground="Black"
+                    Height="25"
+                    Margin="0,10,1,0"
+                    Content="Добавить"
+                    FontSize="10"
+                    Command="{Binding AddListItemCommand}"/>
+        </StackPanel>
+
+        <StackPanel VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Width="85"
+                    Height="60" 
+                    Margin="0,0,10,10">
+            <Button Background="#d5ddd3"
+                    BorderThickness="0"
+                    Foreground="Black"
+                    Height="25"
+                    Margin="0,0,1,0"
+                    Content="Ок"
+                    FontSize="10">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                      MethodName="Close"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button Background="#d5ddd3"
+                    BorderThickness="0"
+                    Foreground="Black"
+                    Height="25"
+                    Margin="0,10,1,0"
+                    Content="Отмена"
+                    FontSize="10">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:CallMethodAction TargetObject="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                      MethodName="Close"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+        </StackPanel>
+    </Grid>
+</Window>
